@@ -1,0 +1,12 @@
+% Young's modulus (Pa)
+9e10
+
+% Poisson's ratio
+0.25
+
+% Mass density (kg/m^3)
+2330.000000
+
+% Damping coefficients for K and M
+1e-4
+2.0
