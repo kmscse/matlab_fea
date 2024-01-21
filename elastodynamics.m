@@ -50,3 +50,14 @@ for t=2:n_timeSteps
         fprintf('%d %%\n', floor(t*100/(n_timeSteps-1)));
     end
 end
+
+% next 9 lines: save the displacement results in file, plot
+Uout = U(probeNode * 2,:);
+save -ascii -double Uout2.dat Uout
+disp('Vertical dispalcement results stored in Uout.dat');
+Uout(200:205)*1000;
+plot(Uout, 'LineWidth',2);
+axis([0 2100 -1.2e-3 0]);
+xlabel('Time step');
+ylabel('Dispalcement (m)');
+set(gca, 'fontsize', 16);
