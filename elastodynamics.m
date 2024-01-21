@@ -61,3 +61,14 @@ axis([0 2100 -1.2e-3 0]);
 xlabel('Time step');
 ylabel('Dispalcement (m)');
 set(gca, 'fontsize', 16);
+
+% Compute mass matrix
+function M = CompM(nodes, elements, rho)
+    n_nodes = size(nodes, 1);
+    n_elements = size(elements, 1);
+    n_nodes_per_element = size(elemets, 2) - 1;
+    M = zeros(n_nodes * 2, n_nodes*2);
+    Nv = zeros(8, 2);
+    [gauss_points, gauss_weights] = GetQuadGauss(2,2);
+    [N, Nx, Ny] = CompNDNatPointsQuad4(gauss_points(:,1), gauss_points(:,2));
+end
