@@ -1,0 +1,29 @@
+[33mcommit 22be01f6f1743e9920938efdd0aa52ca9d956c78[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: Kaung Myat San <kaungmyatsan.cse@gmail.com>
+Date:   Sun Jan 21 02:46:15 2024 +0000
+
+    time marching using Newmark Scheme on elastodynamics.m
+
+[33mcommit fe9df0c2e6592c0ce38a9caae33686fe84c5f7c4[m[33m ([m[1;31morigin/master[m[33m)[m
+Author: Kaung Myat San <kaungmyatsan.cse@gmail.com>
+Date:   Sun Jan 21 02:26:37 2024 +0000
+
+    computing global stiffness matrix (K), global mass matrix (M), global damping matrix (C) and gloabl force vector (F) on elastodynamics.m
+
+[33mcommit 95590616006c3abef610f06bce1104c7685ebe21[m
+Author: Kaung Myat San <kaungmyatsan.cse@gmail.com>
+Date:   Sun Jan 21 02:14:33 2024 +0000
+
+    setting up empty matrices for displacement, velocity and acceleration
+
+[33mcommit 80723765dfbfe203f81e7a9313236bd3576660e8[m
+Author: Kaung Myat San <kaungmyatsan.cse@gmail.com>
+Date:   Sun Jan 21 02:06:23 2024 +0000
+
+    data management for global material properties and constants
+
+[33mcommit 6998984af13d1c1237bacd7db96540ac74d80168[m
+Author: Kaung Myat San <kaungmyatsan.cse@gmail.com>
+Date:   Sun Jan 21 02:01:09 2024 +0000
+
+    setting up global material properties and constants
