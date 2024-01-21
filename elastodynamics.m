@@ -26,3 +26,8 @@ n_elements = size(elements, 1);
 n_bcsforce = size(bcsforce, 1);
 n_csdisp = size(bcsdisp, 1);
 n_timeSteps = timePeriod/dt+1;
+
+% next 3 ines: set up empty matrices
+U = zeros(n_nodes * dimension, n_timeSteps);
+V = zeros(n_nodes * dimension, n_timeSteps);
+A = zeros(n_nodes * dimension, n_timeSteps);
