@@ -36,3 +36,17 @@ K = CompK(nodes, elements, materials); % compute global K matrix
 M = CompM(nodes, elements, rho); % compute global M matrix
 C = dampM * M + dampK * K; % compute global C matrix
 F = CompF(nodes, elements, thickness, bcsforce); % compute global F vector
+
+% next 12 lines: time marching using Newmark Scheme
+beta = 0.25
+gamma = 0.5;
+LHS = M*(1.0/beta*dt*dt)) + C*(gamma/(beta*dt)) + K;
+penalty = max(max(abs(LHS))) * 1e+6;
+A(:,1) = M\F; % initialization of acceleration
+for t=2:n_timeSteps
+    [U,V,A] = Newmark(t, dt, beta, gamma, dimension, ...
+        K,M,C,F,bcsdisp, penalty, U, V, A);
+    if rem(t*100, (n_timeSteps-1)*5)==0
+        fprintf('%d %%\n', floor(t*100/(n_timeSteps-1)));
+    end
+end
