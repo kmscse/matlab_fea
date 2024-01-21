@@ -31,3 +31,8 @@ n_timeSteps = timePeriod/dt+1;
 U = zeros(n_nodes * dimension, n_timeSteps);
 V = zeros(n_nodes * dimension, n_timeSteps);
 A = zeros(n_nodes * dimension, n_timeSteps);
+
+K = CompK(nodes, elements, materials); % compute global K matrix
+M = CompM(nodes, elements, rho); % compute global M matrix
+C = dampM * M + dampK * K; % compute global C matrix
+F = CompF(nodes, elements, thickness, bcsforce); % compute global F vector
