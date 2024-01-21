@@ -19,3 +19,10 @@ thickness = options(2,1);
 timePeriod = options(4,1);
 dt = options(5,1);
 probeNode = options(6,1);
+
+% next 5 lines: bookkeeping
+n_nodes = size(nodes, 1);
+n_elements = size(elements, 1);
+n_bcsforce = size(bcsforce, 1);
+n_csdisp = size(bcsdisp, 1);
+n_timeSteps = timePeriod/dt+1;
