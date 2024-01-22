@@ -77,3 +77,11 @@ function [N, Nx] = CompShapeLinear1D(N,Nx,xi_vector)
         Nx(1:2, i) = [-0.5 0.5]';           % Nx(xi)
     end
 end
+
+% Compute the Jacobian of an isoparametric element mapping
+% Input: x_vector: vector containing x-coordinates of nodes
+% Input: Nx, shape function derivatives, from "CompShapeLinear1D"
+% Ouput: J, Jacobian vector J(xi_1, xi_2, ...)^T
+function J = CompaJacobian1D(x_vector, Nx)
+    J=(x_vector'*Nx)';      % compute vector of Jacobian
+end
