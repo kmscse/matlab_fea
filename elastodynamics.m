@@ -3,12 +3,13 @@
 % Author: Kaung Myat San
 % Location: England, the United Kingdom
 % Time: 01:48 A.M London Time 21/01/2024
-% next 3 lines: read the input files
+
+% read the input files
 filenames = {'nodes.dat', 'elements.dat' 'materials.dat', ...
     'options.dat', 'bscforce.dat', 'bcsdisp.dat'};
 for i = 1:numel(filenames); load(filenames{i}); end;
 
-% next 9 lines: set up global material properties and constants
+% set up global material properties and constants
 E = materials(1,1);
 nu = materials(2,1);
 rho = materials(3,1);
@@ -20,14 +21,14 @@ timePeriod = options(4,1);
 dt = options(5,1);
 probeNode = options(6,1);
 
-% next 5 lines: bookkeeping
+% bookkeeping
 n_nodes = size(nodes, 1);
 n_elements = size(elements, 1);
 n_bcsforce = size(bcsforce, 1);
 n_csdisp = size(bcsdisp, 1);
 n_timeSteps = timePeriod/dt+1;
 
-% next 3 ines: set up empty matrices
+% set up empty matrices
 U = zeros(n_nodes * dimension, n_timeSteps);
 V = zeros(n_nodes * dimension, n_timeSteps);
 A = zeros(n_nodes * dimension, n_timeSteps);
@@ -37,7 +38,7 @@ M = CompM(nodes, elements, rho); % compute global M matrix
 C = dampM * M + dampK * K; % compute global C matrix
 F = CompF(nodes, elements, thickness, bcsforce); % compute global F vector
 
-% next 12 lines: time marching using Newmark Scheme
+% time marching using Newmark Scheme
 beta = 0.25
 gamma = 0.5;
 LHS = M*(1.0/beta*dt*dt)) + C*(gamma/(beta*dt)) + K;
@@ -51,7 +52,7 @@ for t=2:n_timeSteps
     end
 end
 
-% next 9 lines: save the displacement results in file, plot
+% save the displacement results in file, plot
 Uout = U(probeNode * 2,:);
 save -ascii -double Uout2.dat Uout
 disp('Vertical dispalcement results stored in Uout.dat');
@@ -92,11 +93,42 @@ end
 
 % Compute global force vector
 function F=CompF(nodes, elements, thickness, bcsforce)
-F = zeros(size(nodes, 1)*(size(nodes, 2)-1),1);
-n_force_nodes = size(bcsforce, 1);
-% for-loop: apply point forces
-for i=1:n_force_nodes
-    row = 2*bcsforce(i, 1)-1;
-    F(row, 1) = F(row, 1)+ bcsforce(i, 2)/thickness;
-    F(row+1, 1) = F(row+1, 1) + bcsforce(i, 3)/thickness;
+    F = zeros(size(nodes, 1)*(size(nodes, 2)-1),1);
+    n_force_nodes = size(bcsforce, 1);
+    % for-loop: apply point forces
+    for i=1:n_force_nodes
+        row = 2*bcsforce(i, 1)-1;
+        F(row, 1) = F(row, 1)+ bcsforce(i, 2)/thickness;
+        F(row+1, 1) = F(row+1, 1) + bcsforce(i, 3)/thickness;
+    end
+end
+
+% Time integration using Newmark scheme Trapezoid rule
+function [U,V,A] = Newmark(t, dt, beta, gamma, dim, K, M, C, F, bcsdisp, penalty, U, V, A)
+    n_nodes = size(F,1)/dim;
+    % get u,v,a vectors
+    u1 = U(:, t-1);
+    vel1 = V(:, t-1);
+    accel1 = A(:, t-1);
+    
+    
+    % compute the LHS matrix and RHS vector
+    LHS = M*(1.0/(beta*dt*dt)) + C*(gamma/(beta*dt)) + K;
+    rhsvec = ul + vel1*dt + accel1*((.5-beta)*dt*dt);
+    RHS = F + M*(rhsvec*(1.0/(beta*dt*dt))) + C*(rhsvec * ...
+        (gamma/(beta*dt)) - vel1 - accel1*(dt*(1.0 - gamma)));
+    
+    % for-loop: apply displacement BC using the penalty method
+    for j=1:size(bcsdisp, 1);
+        nid = bcsdisp(j, 1);
+        k = bcsdisp(j, 2);
+        RHS(dim*(nid-1)+k, 1) = bcsdisp(j,3)*penalty;
+        LHS(dim*(nid-1)+k, dim*(nid-1)+k) = penalty;
+    end
+    
+    U(:, t)= LHS\RHS; % solve for the displacement
+    % calculated acceleration and velocity
+    A(:, t) = (U(:, t) - U(:, t-1))/(beta*dt*dt) ...
+        -V(:, t-1)/(beta*dt) - A(:, t-1)*(0.5-beta)/beta;
+    V(:, t) = V(:, t-1) + A(:, t-1)*(1.0-gamma)*dt + A(:, t)*dt*gamma;
 end
