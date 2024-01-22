@@ -13,3 +13,15 @@ for k=1:length(dx)
     dudx_c(k) = ((x0+dx(k))^3 - (x0+dx(k))^2 ...
         -(x0-dx(k))^3+(x0-dx(k))^2)/(2*dx(k));
 end
+
+% plot the results
+figure(1);
+semilogx(dx, dudx_f, 'k--', 'LineWidth',2);
+hold on
+semilogx(dx, dudx_b,'k:','LineWidth',2);
+semilogx(dx, dudx_c,'k:','LineWidth',2);
+set(gca,' fontsize ', 16);
+xlabel('x', ' fontsize ', 18);
+ylabel('du/dx', ' fontsize ', 18);
+legend('Forward difference', 'Backward difference', ...
+    'Central difference', 'Location','northwest');
