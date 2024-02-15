@@ -1,8 +1,7 @@
 % MATLAB codes for Finite Element Analysis
 % Elastodynamics Analysis
 % Author: Kaung Myat San
-% Location: England, the United Kingdom
-% Time: 01:48 A.M London Time 21/01/2024
+% Time: 01:48 A.M Time 21/01/2024
 
 % read the input files
 filenames = {'nodes.dat', 'elements.dat' 'materials.dat', ...
