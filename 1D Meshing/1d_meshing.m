@@ -1,8 +1,7 @@
 % MATLAB codes for Finite Element Analysis
 % 1 Dimensional Meshing Program
 % Author: Kaung Myat San
-% Location: England, the United Kingdom
-% Time: 8:16 P.M London Time 22/01/2024
+% Time: 8:16 P.M Time 22/01/2024
 
 % Generate 1-D mesh
 % Input: start_x, end_x: x-coordinates of the starting and ending nodes
