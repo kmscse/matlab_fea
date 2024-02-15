@@ -1,8 +1,7 @@
 % MATLAB codes for Finite Element Analysis
-% Derivatice Calculation
+% Derivative Calculation
 % Author: Kaung Myat San
-% Location: England, the United Kingdom
-% Time: 07:10 P.M London Time 22/01/2024
+% Time: 07:10 P.M Time 22/01/2024
 
 x0 = 1.0;   % the point where the derivative is calculated
 dx = 10.^[-3:.1:0];     % delta x values varying from 1 to 10^-3
